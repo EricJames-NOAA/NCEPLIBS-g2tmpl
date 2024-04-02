@@ -2067,6 +2067,165 @@ contains
   end subroutine g2sec4_temp44
   !>
   !> This subroutine returns the Grib2 Section 4 Template 4.0 list for given keys
+  !>           PDT 4.46 - Average, accumulation, and/or extreme values or other
+  !>                      statistically processed values at a horizontal level
+  !>                      or in a horizontal layer in a continuous or
+  !>                      non-continuous time interval for aerosol.
+  !>
+  !> @param[in] icatg - Parameter category (see Code table 4.1)
+  !> @param[in] iparm - Parameter number (see Code table 4.2)
+  !> @param[in] aer_type - Aetosol type (see Code table 4.233)
+  !> @param[in] typ_intvl_size - Type of interval for first and second size (see Code table 4.91)
+  !> @param[in] scale_fac1_size - Scale factor of first size
+  !> @param[in] scale_val1_size - Scale value of first size in meters
+  !> @param[in] scale_fac2_size - Scale factor of second size
+  !> @param[in] scale_val2_size - Scale value of second size in meters
+  !> @param[in] typ_gen_proc_key - Type of generating process (see Code table 4.3)
+  !> @param[in] gen_proc_or_mod_key - Analysis or forecast generating process identified (see Code ON388 Table A)
+  !> @param[in] hrs_obs_cutoff - Hours of observational data cutoff after reference time (see Note)
+  !> @param[in] min_obs_cutoff - Minutes of observational data cutoff after reference time (see Note)
+  !> @param[in] unit_of_time_key - Indicator of unit of time range (see Code table 4.4)
+  !> @param[in] fcst_time - Forecast time in units defined by octet 18
+  !> @param[in] lvl_type1 - Type of first fixed surface (see Code table 4.5)
+  !> @param[in] scale_fac1 - Scale factor of first fixed surface
+  !> @param[in] scaled_val1 - Scaled value of first fixed surface
+  !> @param[in] lvl_type2 - Type of second fixed surfaced (see Code table 4.5)
+  !> @param[in] scale_fac2 - Scale factor of second fixed surface
+  !> @param[in] scaled_val2 - Scaled value of second fixed surfaces
+  !> @param[in] year_intvl - Year Time of end of overall time interval
+  !> @param[in] mon_intvl - Month Time of end of overall time interval
+  !> @param[in] day_intvl - Day Time of end of overall time interval
+  !> @param[in] hour_intvl - Hour Time of end of overall time interval
+  !> @param[in] min_intvl - Minute Time of end of overall time interval
+  !> @param[in] sec_intvl - Second Time of end of overall time interval
+  !> @param[in] num_time_range - n number of time ranges specifications describing
+  !>                        the time intervals used to calculate the
+  !>                        statistically-processed field
+  !> @param[in] stat_miss_val - Total number of data values missing in statistical process
+  !>                       Specification of the outermost (or only) time range over
+  !>                       which statistical processing is done
+  !> @param[in] type_of_stat_proc - Statistical process used to calculate the processed
+  !>                           field from the field at each time increment during the
+  !>                           time range (see Code Table 4.10)
+  !> @param[in] type_of_time_inc - Type of time increment between successive fields
+  !>                          used in the statistical processing (see Code Table 4.11)
+  !> @param[in] stat_unit_time_key - Indicator of unit of time for time range over which
+  !>                            statistical processing is done (see Code Table 4.4)
+  !> @param[in] leng_time_range_stat - Length of the time range over which statistical processing
+  !>                              is done, in units defined by the previous octet
+  !> @param[in] stat_unit_time_key_succ - Indicator of unit of time for the increment between the
+  !>                                 successive fields used (see Code table 4.4)
+  !> @param[in] time_inc_betwn_succ_fld - Time increment between successive fields, 
+  !>                                  in units defined by the previous octet (see Notes 3 & 4)
+  !> @param[out] ipdstmpl46 - GRIB2 PDS Template 4.46 listing
+  !>
+  !>   @author E. JAMES                  ORG: NOAA/GSL  @date 2024-04-02
+  subroutine g2sec4_temp46(icatg, iparm, aer_type, typ_intvl_size,                 &
+       scale_fac1_size, scale_val1_size, scale_fac2_size,      &
+       scale_val2_size, typ_gen_proc_key, gen_proc_or_mod_key, &
+       hrs_obs_cutoff, min_obs_cutoff,                         &
+       unit_of_time_key, fcst_time, lvl_type1, scale_fac1,     &
+       scaled_val1, lvl_type2, scale_fac2, scaled_val2,        &
+       year_intvl,                                             &
+       mon_intvl, day_intvl, hour_intvl, min_intvl, sec_intvl, &
+       num_time_range, stat_miss_val, type_of_stat_proc,       &
+       type_of_time_inc, stat_unit_time_key,                   &
+       leng_time_range_stat, stat_unit_time_key_succ,          &
+       time_inc_betwn_succ_fld, ipdstmpl46)
+    integer(4), intent(in) :: icatg, iparm, hrs_obs_cutoff, min_obs_cutoff,         &
+         scale_fac1_size, scale_fac2_size,       &
+         fcst_time, scale_fac1, scaled_val1,                             &
+         scale_fac2, scaled_val2
+    integer(4), intent(in) :: year_intvl, mon_intvl, day_intvl, hour_intvl, min_intvl, &
+         sec_intvl, num_time_range, stat_miss_val, &
+         leng_time_range_stat, time_inc_betwn_succ_fld
+    !
+    real, intent(in) :: scale_val1_size, scale_val2_size
+    !
+    character(len=*), intent(in) :: aer_type, typ_intvl_size,                     &
+         typ_gen_proc_key,                        &
+         gen_proc_or_mod_key, unit_of_time_key, lvl_type1, lvl_type2,   &
+         type_of_stat_proc, type_of_time_inc, &
+         stat_unit_time_key, stat_unit_time_key_succ
+    !
+    integer(4), intent(inout)  :: ipdstmpl46(35)
+    !
+    !local vars
+    integer(4) :: value, ierr
+    integer(4) :: bckgnd_gen_proc_id    ! defined by the center
+    !
+    bckgnd_gen_proc_id=0    ! defined by the center
+    !
+    ipdstmpl46(1) = icatg
+    ipdstmpl46(2) = iparm
+    !
+    call get_g2_typeofaerosol(aer_type, value, ierr)
+    ipdstmpl46(3) = value
+    !
+    call get_g2_typeofintervals(typ_intvl_size, value, ierr)
+    ipdstmpl46(4) = value
+    ipdstmpl46(5) = scale_fac1_size
+    ipdstmpl46(6) = nint(scale_val1_size)
+    ipdstmpl46(7) = scale_fac2_size
+    ipdstmpl46(8) = nint(scale_val2_size)
+    
+    call get_g2_typeofgenproc(typ_gen_proc_key, value, ierr)
+    ipdstmpl46(9) = value
+    !
+    ipdstmpl46(10) = bckgnd_gen_proc_id
+    !
+    call get_g2_on388genproc(gen_proc_or_mod_key, value, ierr)
+    ipdstmpl46(11) = value
+    !
+    ipdstmpl46(12) = hrs_obs_cutoff
+    ipdstmpl46(13) = min_obs_cutoff
+    !
+    call get_g2_unitoftimerange(unit_of_time_key, value, ierr)
+    ipdstmpl46(14) = value
+    ipdstmpl46(15) = fcst_time
+    !
+    call get_g2_fixedsurfacetypes(lvl_type1, value, ierr)
+    ipdstmpl46(16) = value
+    ipdstmpl46(17) = scale_fac1
+    ipdstmpl46(18) = scaled_val1
+    !
+    call get_g2_fixedsurfacetypes(lvl_type2, value, ierr)
+    ipdstmpl46(19) = value
+    !
+    ipdstmpl46(20) = scale_fac2
+    ipdstmpl46(21) = scaled_val2
+    ipdstmpl46(22) = year_intvl
+    ipdstmpl46(23) = mon_intvl
+    ipdstmpl46(24) = day_intvl
+    ipdstmpl46(25) = hour_intvl
+    ipdstmpl46(26) = min_intvl
+    ipdstmpl46(27) = sec_intvl
+    !
+    ipdstmpl46(28) = num_time_range ! choose n=1 for this case
+    ipdstmpl46(29) = stat_miss_val  ! choose 0 for this case
+    !
+    call get_g2_statprocesstypes(type_of_stat_proc, value, ierr)
+    ipdstmpl46(30) = value  ! types_of_stat_proc='accumulation'
+    !
+    call get_g2_typeoftimeintervals(type_of_time_inc, value, ierr)
+    ipdstmpl46(31) = value  ! type_of_time_inc='same_start_time_fcst_fcst_time_inc'
+    ! value = 2 (Successive times processed have same start
+    !       time of forecast, forecast time is incremented)
+    !
+    call get_g2_unitoftimerange(stat_unit_time_key, value, ierr)
+    ipdstmpl46(32) = value  ! stat_unit_time_key='hour'
+    ! value = 1
+    ipdstmpl46(33) = leng_time_range_stat  ! value = 6
+    !
+    call get_g2_unitoftimerange(stat_unit_time_key_succ, value, ierr)
+    ! stat_unit_time_key_succ='missing'
+    ipdstmpl46(34) = value  ! value = 255
+    !
+    ipdstmpl46(35) = time_inc_betwn_succ_fld   ! value = 0
+    !
+  end subroutine g2sec4_temp46
+  !>
+  !> This subroutine returns the Grib2 Section 4 Template 4.0 list for given keys
   !>           PDT 4.48 - Analysis or forecast at a horizontal level or in a
   !>                      horizontal layer at a point in time for aerosol.
   !>
