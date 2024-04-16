@@ -1976,12 +1976,9 @@ contains
     !
   end subroutine g2sec4_temp8
   !>
-  !> This subroutine returns the Grib2 Section 4 Template 4.9 list for given keys
+  !> Returns the GRIB2 Section 4 Template 4.9 list for given keys
   !>           PDT 4.9 - Probability forecasts at a horizontal level or in a horizontal
   !>                     layer in a continuous or non-continuous time interval.
-  !>
-  !> PROGRAM HISTORY LOG:
-  !> 2024-04-02  Eric James
   !>
   !> @param[in] icatg - Parameter category (see Code Table 4.1)
   !> @param[in] iparm - Parameter number (see Code Table 4.2)
