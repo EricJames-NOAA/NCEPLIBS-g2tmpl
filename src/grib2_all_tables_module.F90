@@ -2001,7 +2001,7 @@ contains
   !> @param[in] tot_num_prob - Total number of forecast probabilities
   !> @param[in] type_of_prob - Probability Type (see Code Table 4.9)
   !> @param[in] scale_fac_lower_limit - Scale factor of first fixed surface
-  !> @param[in] scaled_val_lower_limit - Scaled value of first fixed surface
+  !> @param[in] scale_val_lower_limit - Scaled value of first fixed surface
   !> @param[in] scale_fac_upper_limit - Scale factor of second fixed surface
   !> @param[in] scaled_val_upper_limit - Scaled value of second fixed surfaces
   !> @param[in] year_intvl - Year Time of end of overall time interval
