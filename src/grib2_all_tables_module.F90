@@ -2098,9 +2098,9 @@ contains
     ipdstmpl9(18) = value
     !
     ipdstmpl9(19) = scale_fac_lower_limit
-    ipdstmpl9(20) = scale_val_lower_limit
+    ipdstmpl9(20) = int(scale_val_lower_limit)
     ipdstmpl9(21) = scale_fac_upper_limit
-    ipdstmpl9(22) = scale_val_upper_limit
+    ipdstmpl9(22) = int(scale_val_upper_limit)
     !
     ipdstmpl9(23) = year_intvl
     ipdstmpl9(24) = mon_intvl
